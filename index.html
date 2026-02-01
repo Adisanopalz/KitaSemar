@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KitaSemar - Semarang Bersama Berbagi</title>
+    
+    <!-- Menggunakan Tailwind CSS untuk styling cepat dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Warna Kustom sesuai permintaan -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ksGreen: '#7CCD7C',   // Hijau Muda Utama
+                        ksOrange: '#FFA500',  // Oranye Tombol Penting
+                        ksGray: '#F5F5F5',    // Abu-abu latar belakang
+                        ksDark: '#333333',    // Warna teks
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Menggunakan Lucide Icons untuk ikon visual -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* CSS Tambahan untuk transisi halus */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Menyembunyikan halaman yang tidak aktif */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-ksGray text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- HEADER / NAVBAR -->
+    <nav class="bg-ksGreen shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo & Nama -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="showPage('home')">
+                <div class="bg-white p-1.5 rounded-full text-ksGreen">
+                    <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white leading-none">KitaSemar</h1>
+                    <p class="text-xs text-white/90">Semarang Bersama Berbagi</p>
+                </div>
+            </div>
+
+            <!-- Menu Desktop -->
+            <div class="hidden md:flex space-x-4 text-white font-medium">
+                <a href="#" onclick="showPage('home')" class="hover:text-yellow-100 transition">Beranda</a>
+                <a href="#" onclick="showPage('about')" class="hover:text-yellow-100 transition">Tentang</a>
+            </div>
+
+            <!-- Menu Mobile (Icon Only) -->
+            <div class="md:hidden text-white cursor-pointer" onclick="showPage('about')">
+                <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-6 w-full">
+
+        <!-- ================= HALAMAN UTAMA (HOME) ================= -->
+        <section id="home" class="page-section active fade-in">
+            
+            <!-- Pesan Sambutan -->
+            <div class="bg-white rounded-xl p-6 shadow-sm mb-6 border-l-4 border-ksGreen">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Selamat datang di KitaSemar! 👋</h2>
+                <p class="text-gray-600">Tempatnya warga Semarang saling bantu. Punya barang tak terpakai? Bagikan di sini. Sedang butuh sesuatu? Cari di sini.</p>
+            </div>
+
+            <!-- Bagian Filter -->
+            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                <!-- Tombol Pilihan -->
+                <div class="flex space-x-2 mb-4">
+                    <button class="flex-1 bg-ksGreen text-white py-2 rounded-lg font-semibold hover:bg-green-600 transition shadow-sm">
+                        Saya Mau Berbagi
+                    </button>
+                    <button class="flex-1 bg-white border-2 border-ksGreen text-ksGreen py-2 rounded-lg font-semibold hover:bg-green-50 transition">
+                        Saya Mencari
+                    </button>
+                </div>
+
+                <!-- Dropdown Filter -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <select class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen focus:outline-none bg-gray-50">
+                        <option value="">Semua Kategori Barang</option>
+                        <option value="buku">Buku</option>
+                        <option value="pakaian">Pakaian</option>
+                        <option value="rumah_tangga">Alat Rumah Tangga</option>
+                        <option value="anak">Perlengkapan Anak</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                    
+                    <select class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen focus:outline-none bg-gray-50">
+                        <option value="">Semua Kecamatan Semarang</option>
+                        <option value="gayamsari">Gayamsari</option>
+                        <option value="pedurungan">Pedurungan</option>
+                        <option value="semarang_tengah">Semarang Tengah</option>
+                        <option value="semarang_barat">Semarang Barat</option>
+                        <option value="candisari">Candisari</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Daftar Postingan -->
+            <h3 class="font-bold text-lg text-gray-700 mb-4 flex items-center">
+                <i data-lucide="list" class="w-5 h-5 mr-2"></i> Postingan Terbaru
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="post-list">
+                <!-- Postingan 1 (Mock Data) -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition border border-gray-100">
+                    <div class="h-40 bg-gray-200 w-full relative">
+                        <img src="https://images.unsplash.com/photo-1544640808-32ca72ac7f37?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Buku" class="w-full h-full object-cover">
+                        <span class="absolute top-2 right-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">Berbagi</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2">
+                            <span class="bg-gray-100 px-2 py-0.5 rounded">Buku</span>
+                            <span class="flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Gayamsari</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 text-lg mb-1 truncate">Buku Tematik & MTK SD Kls 3-4</h4>
+                        <p class="text-xs text-gray-400 mb-3">Diposting: 02 Feb 2026</p>
+                        <button onclick="showDetail(1)" class="w-full bg-white border border-ksGreen text-ksGreen hover:bg-ksGreen hover:text-white py-2 rounded-lg text-sm font-semibold transition">
+                            Lihat Detail
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Postingan 2 (Mock Data) -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition border border-gray-100">
+                    <div class="h-40 bg-gray-200 w-full relative">
+                        <img src="https://images.unsplash.com/photo-1519457431-44ccd64a579b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Pakaian" class="w-full h-full object-cover">
+                        <span class="absolute top-2 right-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">Berbagi</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-gray-500 mb-2 space-x-2">
+                            <span class="bg-gray-100 px-2 py-0.5 rounded">Pakaian</span>
+                            <span class="flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Pedurungan</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 text-lg mb-1 truncate">Pakaian Anak Usia 2-4 Tahun</h4>
+                        <p class="text-xs text-gray-400 mb-3">Diposting: 01 Feb 2026</p>
+                        <button onclick="showDetail(2)" class="w-full bg-white border border-ksGreen text-ksGreen hover:bg-ksGreen hover:text-white py-2 rounded-lg text-sm font-semibold transition">
+                            Lihat Detail
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Action Button (Tombol Utama Posting) -->
+            <div class="sticky bottom-4 flex justify-center mt-6 z-40">
+                <button onclick="showPage('post-form')" class="bg-ksOrange text-white px-6 py-3 rounded-full shadow-lg font-bold text-lg flex items-center hover:bg-orange-600 transition transform hover:scale-105">
+                    <i data-lucide="plus-circle" class="w-6 h-6 mr-2"></i> Posting Barang Baru
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= HALAMAN FORM POSTING ================= -->
+        <section id="post-form" class="page-section fade-in">
+            <div class="bg-white rounded-xl p-6 shadow-sm border-t-4 border-ksOrange">
+                <button onclick="showPage('home')" class="text-sm text-gray-500 hover:text-ksGreen mb-4 flex items-center">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Kembali ke Beranda
+                </button>
+
+                <h2 class="text-2xl font-bold text-gray-800 mb-1">Posting Barang Baru</h2>
+                <p class="text-gray-500 text-sm mb-6">Bagikan barang kamu atau cari yang dibutuhkan.</p>
+
+                <form onsubmit="handlePostSubmit(event)" class="space-y-4">
+                    
+                    <!-- Jenis Posting -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Posting</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center space-x-2 border p-3 rounded-lg w-full cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="type" value="offer" checked class="text-ksGreen focus:ring-ksGreen">
+                                <span>Saya Mau Berbagi</span>
+                            </label>
+                            <label class="flex items-center space-x-2 border p-3 rounded-lg w-full cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="type" value="request" class="text-ksGreen focus:ring-ksGreen">
+                                <span>Saya Mencari</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Kategori -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori Barang</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen focus:outline-none bg-white">
+                            <option>Buku</option>
+                            <option>Pakaian</option>
+                            <option>Alat Rumah Tangga</option>
+                            <option>Perlengkapan Anak</option>
+                            <option>Lainnya</option>
+                        </select>
+                    </div>
+
+                    <!-- Deskripsi -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Barang</label>
+                        <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen focus:outline-none" placeholder="Contoh: Buku Matematika SD Kelas 3, kondisi sangat baik..."></textarea>
+                    </div>
+
+                    <!-- Kondisi (Hanya jika berbagi) -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kondisi Barang</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center space-x-1"><input type="radio" name="condition" class="text-ksGreen"> <span class="text-sm">Sangat Baik</span></label>
+                            <label class="flex items-center space-x-1"><input type="radio" name="condition" class="text-ksGreen"> <span class="text-sm">Baik</span></label>
+                            <label class="flex items-center space-x-1"><input type="radio" name="condition" class="text-ksGreen"> <span class="text-sm">Cukup</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Lokasi & Kontak -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan Kamu</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen bg-white">
+                                <option>Gayamsari</option>
+                                <option>Pedurungan</option>
+                                <option>Semarang Tengah</option>
+                                <option>Semarang Barat</option>
+                                <option>Candisari</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp</label>
+                            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ksGreen" placeholder="0812xxxx (Wajib Aktif)">
+                        </div>
+                    </div>
+
+                    <!-- Upload Foto -->
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition cursor-pointer">
+                        <i data-lucide="image" class="w-8 h-8 mx-auto text-gray-400 mb-2"></i>
+                        <span class="text-sm text-gray-500">Klik untuk upload foto (Opsional)</span>
+                        <input type="file" class="hidden">
+                    </div>
+
+                    <div class="text-xs text-gray-500 bg-yellow-50 p-2 rounded border border-yellow-100">
+                        Postingan akan muncul setelah diperiksa maksimal 24 jam. Pastikan barang layak pakai.
+                    </div>
+
+                    <button type="submit" class="w-full bg-ksOrange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-md">
+                        Kirim Postingan
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ================= HALAMAN DETAIL POSTING ================= -->
+        <section id="detail-page" class="page-section fade-in">
+            <!-- Konten akan diisi oleh JavaScript -->
+            <div id="detail-content"></div>
+        </section>
+
+
+        <!-- ================= HALAMAN TENTANG ================= -->
+        <section id="about" class="page-section fade-in">
+            <div class="bg-white rounded-xl p-8 shadow-sm">
+                <div class="text-center mb-8">
+                    <div class="bg-ksGreen text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800">Tentang KitaSemar</h2>
+                    <p class="text-gray-500">Semarang Bersama Berbagi</p>
+                </div>
+
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="font-bold text-xl text-ksGreen mb-2">Apa Itu KitaSemar?</h3>
+                        <p class="leading-relaxed">
+                            KitaSemar adalah inisiatif digital untuk warga Semarang agar bisa berbagi barang tidak terpakai dengan mereka yang membutuhkan. Platform ini dibuat untuk mengurangi limbah rumah tangga sekaligus mempererat tali silaturahmi antar warga tanpa biaya.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-xl text-ksGreen mb-2">Makna Nama</h3>
+                        <p class="leading-relaxed">
+                            <span class="font-bold">"Kita"</span> melambangkan kebersamaan, dan <span class="font-bold">"Semar"</span> adalah singkatan dari Semarang, sekaligus merujuk pada tokoh pewayangan Semar yang dikenal bijaksana, pengasuh, dan suka menolong rakyat kecil.
+                        </p>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Aturan Main</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>Hanya posting barang yang <strong>layak pakai</strong> dan tidak berbahaya.</li>
+                            <li><strong>Dilarang meminta uang</strong> atau imbalan materi.</li>
+                            <li>Selalu lakukan pertemuan (COD) di <strong>tempat umum</strong>.</li>
+                            <li>Saling menghormati dalam komunikasi WhatsApp.</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center pt-4 border-t">
+                        <p class="text-sm text-gray-500">Punya saran atau keluhan?</p>
+                        <p class="font-semibold text-ksGreen">Hubungi Admin: 0812-3456-7890</p>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <button onclick="showPage('home')" class="w-full bg-gray-100 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-200 transition">
+                        Kembali ke Beranda
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-auto py-6">
+        <div class="max-w-4xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 KitaSemar. Dibuat dengan ❤️ untuk warga Semarang.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Inisialisasi Icons
+        lucide.createIcons();
+
+        // Data Mockup (Contoh Postingan)
+        const mockData = {
+            1: {
+                id: 1,
+                title: "Buku Tematik & Matematika SD Kelas 3-4",
+                category: "Buku",
+                type: "Berbagi",
+                condition: "Sangat Baik",
+                location: "Gayamsari, Semarang",
+                date: "02 Februari 2026",
+                description: "Buku tematik IPA & IPS, serta buku matematika untuk SD kelas 3 dan 4. Semua halaman lengkap, tidak ada coretan atau sobek. Cocok untuk anak yang membutuhkan buku pelajaran tambahan.",
+                image: "https://images.unsplash.com/photo-1544640808-32ca72ac7f37?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+            },
+            2: {
+                id: 2,
+                title: "Pakaian Anak Usia 2-4 Tahun (Laki & Perempuan)",
+                category: "Pakaian",
+                type: "Berbagi",
+                condition: "Baik",
+                location: "Pedurungan, Semarang",
+                date: "01 Februari
